@@ -1,0 +1,34 @@
+<div class="row">
+    <div>
+        <h1>Первое задание.</h1>
+        <img *ngIf="characterMood == ToneTypes.START_MOOD" class="standart-size-host" src="/assets/hostCharacter/ruby.png">
+        <img *ngIf="characterMood == ToneTypes.POSITIVE" class="standart-size-host" src="/assets/hostCharacter/hehe.png">
+        <img *ngIf="characterMood == ToneTypes.NEGATIVE" class="standart-size-host" src="/assets/hostCharacter/unsatisfaction.png">
+        <img *ngIf="characterMood == ToneTypes.UNDETERMINED" class="standart-size-host" src="/assets/hostCharacter/question.png">
+    </div>
+    <div class="description">
+        <h3>
+            Твоя задача будет состоять в том, чтобы сделать мне комплимент. Да, я понимаю, что
+            день рождение у тебя, а не у меня, но я же Котялок, мне можно :D
+        </h3>
+        <tui-input type="text" tuiInput>
+            Твой комплимент
+            <input [formControl]="compliment" tuiTextfield type="text">
+        </tui-input>
+        <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
+            <button 
+                class="finishButton"
+                tuiButton
+                (click)="getReward()">
+                Завершить задание
+            </button>
+            <h3>Поздравляем!!! Тебе удалось задобрить Котялка!</h3>
+        </div>
+        <div *ngIf="this.characterMood === ToneTypes.NEGATIVE">
+            <h3>Кажется, Котялку не понравился твой комплимент...</h3>
+        </div>
+        <div *ngIf="this.characterMood === ToneTypes.UNDETERMINED">
+            <h3>Котялок никак не поймет что ты имела ввиду...</h3>
+        </div>
+    </div>
+</div>

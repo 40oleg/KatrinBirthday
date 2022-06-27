@@ -1,0 +1,20 @@
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.level {
+    width: 60vw;
+    padding: 25px;
+    margin: 15px;
+    box-sizing: border-box;
+    background-color: bisque;
+}
+
+.celebration-message  {
+    width: calc(40vw - 15px - 15px - 20px);
+    padding: 25px;
+    margin: 15px;
+    box-sizing: border-box;
+    background-color: bisque;
+}
