@@ -1,0 +1,59 @@
+<div class="row">
+    <div>
+        <h1>Второе задание.</h1>
+        <img *ngIf="characterMood == ToneTypes.SMILE" class="standart-size-host" src="/assets/hostCharacter/smile.png">
+        <!-- <img *ngIf="characterMood == ToneTypes.POSITIVE" class="standart-size-host" src="/assets/hostCharacter/hehe.png"> -->
+        <!-- <img *ngIf="characterMood == ToneTypes.NEGATIVE" class="standart-size-host" src="/assets/hostCharacter/unsatisfaction.png"> -->
+        <!-- <img *ngIf="characterMood == ToneTypes.UNDETERMINED" class="standart-size-host" src="/assets/hostCharacter/question.png"> -->
+    </div>
+    <div class="description">
+        <h3>
+            Хей-хей-хей. Ты неплохо справилась с первым заданием! Могу поздравить с небольшим успехом!
+            Но что же тебя ждёт дальше??? А дальше тебя ждёт пазл. В чём суть, я такой неловкий Котялок,
+            что недавно случайно расстриг любимые фотокарточки, а у меня лапки,
+            и я сам не могу их все собрать... Помоги мне. Выбери одну фотокарточку и собери её!
+            Я надеюсь на твою помощь!
+        </h3>
+
+        <h2>Выбери любую фотокарточку</h2>
+
+
+        <tui-carousel
+            #carousel
+            [duration]="4000"
+            [(index)]="index"
+            [itemsCount]="3"
+        >
+            <ng-container *ngFor="let image of images">
+                <img
+                    *tuiItem 
+                    width="200px" 
+                    src="{{image.url}}">
+            </ng-container>
+        </tui-carousel>
+        <tui-pagination
+            size="s"
+            class="pagination"
+            [length]="images.length"
+            [(index)]="index"
+        ></tui-pagination>
+
+        <!-- <canvas #canvas width="400px" height="400px"></canvas> -->
+
+        <!-- <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
+            <button 
+                class="finishButton"
+                tuiButton
+                (click)="getReward()">
+                Завершить задание
+            </button>
+            <h3>Поздравляем!!! Тебе удалось задобрить Котялка!</h3>
+        </div>
+        <div *ngIf="this.characterMood === ToneTypes.NEGATIVE">
+            <h3>Кажется, Котялку не понравился твой комплимент...</h3>
+        </div>
+        <div *ngIf="this.characterMood === ToneTypes.UNDETERMINED">
+            <h3>Котялок никак не поймет что ты имела ввиду...</h3>
+        </div> -->
+    </div>
+</div>

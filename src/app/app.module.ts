@@ -11,8 +11,9 @@ import { FakeLoadCongratulationsComponent } from './introduction/fake-load-congr
 import { GameExplanationComponent } from './introduction/game-explanation/game-explanation.component';
 import { ScoreCounterComponent } from './controls/score-counter/score-counter.component';
 import { LevelComponent } from "./levels/level.component";
-import { TuiInputModule } from "@taiga-ui/kit";
+import { TuiCarouselModule, TuiInputModule, TuiIslandModule, TuiPaginationModule } from "@taiga-ui/kit";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PuzzleImageComponent } from './levels/puzzle-image/puzzle-image.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     GameExplanationComponent,
     ScoreCounterComponent,
     LevelComponent,
+    PuzzleImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +38,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     TuiInputModule,
     FormsModule,
     ReactiveFormsModule,
+    TuiCarouselModule,
+    TuiIslandModule,
+    TuiPaginationModule,
 ],
   providers: [],
   bootstrap: [AppComponent]
