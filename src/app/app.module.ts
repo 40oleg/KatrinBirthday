@@ -14,6 +14,8 @@ import { LevelComponent } from "./levels/level.component";
 import { TuiCarouselModule, TuiInputModule, TuiIslandModule, TuiPaginationModule } from "@taiga-ui/kit";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PuzzleImageComponent } from './levels/puzzle-image/puzzle-image.component';
+import { ImagePartComponent } from './levels/puzzle-image/image-part/image-part.component';
+import { AnchorDirective } from "./directives/anchor.directive";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { PuzzleImageComponent } from './levels/puzzle-image/puzzle-image.compone
     ScoreCounterComponent,
     LevelComponent,
     PuzzleImageComponent,
+    ImagePartComponent,
+    AnchorDirective,
   ],
   imports: [
     BrowserModule,

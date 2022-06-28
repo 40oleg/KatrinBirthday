@@ -18,7 +18,7 @@
         <h2>Выбери любую фотокарточку</h2>
 
 
-        <tui-carousel
+        <!-- <tui-carousel
             #carousel
             [duration]="4000"
             [(index)]="index"
@@ -36,9 +36,24 @@
             class="pagination"
             [length]="images.length"
             [(index)]="index"
-        ></tui-pagination>
+        ></tui-pagination> -->
 
-        <!-- <canvas #canvas width="400px" height="400px"></canvas> -->
+        <div 
+            *ngFor="let el of puzzleFieldSize; index as i"
+            class="row">
+            <div 
+                #cellPart
+                *ngFor="let innerEl of puzzleFieldSize; index as j"
+                class="cell">
+                {{i}}{{j}}
+            </div>
+        </div>
+
+        <div
+            #spawner 
+            class="parts-spawner">
+            <ng-template appAnchor></ng-template>            
+        </div>
 
         <!-- <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
             <button 
