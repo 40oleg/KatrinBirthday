@@ -10,7 +10,7 @@
         <h3>
             Хей-хей-хей. Ты неплохо справилась с первым заданием! Могу поздравить с небольшим успехом!
             Но что же тебя ждёт дальше??? А дальше тебя ждёт пазл. В чём суть, я такой неловкий Котялок,
-            что недавно случайно расстриг любимые фотокарточки, а у меня лапки,
+            что недавно случайно перемешал кусочки любимых фотокарточек, а у меня лапки,
             и я сам не могу их все собрать... Помоги мне. Выбери одну фотокарточку и собери её!
             Я надеюсь на твою помощь!
         </h3>
@@ -18,42 +18,14 @@
         <h2>Выбери любую фотокарточку</h2>
 
 
-        <!-- <tui-carousel
-            #carousel
-            [duration]="4000"
-            [(index)]="index"
-            [itemsCount]="3"
-        >
-            <ng-container *ngFor="let image of images">
-                <img
-                    *tuiItem 
-                    width="200px" 
-                    src="{{image.url}}">
-            </ng-container>
-        </tui-carousel>
-        <tui-pagination
-            size="s"
-            class="pagination"
-            [length]="images.length"
-            [(index)]="index"
-        ></tui-pagination> -->
+        <canvas
+            draggable="false"
+            id="canvas" 
+            #canvas 
+            width="400px" 
+            height="400px">
+        </canvas>
 
-        <div 
-            *ngFor="let el of puzzleFieldSize; index as i"
-            class="row">
-            <div 
-                #cellPart
-                *ngFor="let innerEl of puzzleFieldSize; index as j"
-                class="cell">
-                {{i}}{{j}}
-            </div>
-        </div>
-
-        <div
-            #spawner 
-            class="parts-spawner">
-            <ng-template appAnchor></ng-template>            
-        </div>
 
         <!-- <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
             <button 
