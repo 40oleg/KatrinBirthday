@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ScoreService } from 'src/app/services/score.service';
+import { ScoreService } from '../../../../src/app/services/score.service';
 
 @Component({
   selector: 'app-score-counter',

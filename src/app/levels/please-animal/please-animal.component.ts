@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import goodWords from './goodWords';
 import badWords from './badWords';
 import { debounceTime } from 'rxjs';
-import { ScoreService } from 'src/app/services/score.service';
+import { ScoreService } from '../../../../src/app/services/score.service';
 
 const LEVEL_REWARD = 25;
 
