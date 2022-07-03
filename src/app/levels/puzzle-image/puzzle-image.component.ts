@@ -102,6 +102,7 @@ export class PuzzleImageComponent {
   }
   
   gameStart() {
+    timer(500).subscribe(() => this.gameLoaded = !this.gameLoaded)
     timer(1000).subscribe(() =>  {
       this.listenRxEvents(); 
       this.loadImage().then(() => {

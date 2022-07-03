@@ -17,6 +17,7 @@
         </tui-input>
         <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
             <button 
+                [showLoader]="levelFinished"
                 class="finishButton"
                 tuiButton
                 (click)="getReward()">

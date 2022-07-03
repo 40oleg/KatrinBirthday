@@ -17,7 +17,7 @@ export class LevelComponent implements OnInit {
   activeLevel: string;
 
   constructor() {
-    this.activeLevel = LevelsEnum.EMPTY_LEVEL;
+    this.activeLevel = LevelsEnum.PLEASE_ANIMAL;
   }
 
   ngOnInit(): void {

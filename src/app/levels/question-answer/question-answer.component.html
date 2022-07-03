@@ -1,0 +1,44 @@
+<div class="row">
+    <div>
+        <h1>Третье задание.</h1>
+        <img *ngIf="characterMood == ToneTypes.LITTLE_SMILE" class="standart-size-host" src="./assets/hostCharacter/little_smile.png">
+        <!-- <img *ngIf="characterMood == ToneTypes.POSITIVE" class="standart-size-host" src="/assets/hostCharacter/hehe.png"> -->
+        <!-- <img *ngIf="characterMood == ToneTypes.NEGATIVE" class="standart-size-host" src="/assets/hostCharacter/unsatisfaction.png"> -->
+        <!-- <img *ngIf="characterMood == ToneTypes.UNDETERMINED" class="standart-size-host" src="/assets/hostCharacter/question.png"> -->
+    </div>
+    <div class="description">
+        <h2>Рубрика вопрос-ответ!</h2>
+        <h3>
+            Ты уже почти у цели. Осталось совсем чуть-чуть. За каждый правильный ответ тебе будут капать 
+            булочки на баланс :D
+        </h3>
+
+        <h2
+            class="title">
+            Как зовут акулу Леры?
+        </h2>
+
+        <div
+            tuiGroup
+            class="group"
+            [collapsed]="true">
+            <tui-radio-block
+                *ngFor="let answerItem of currentQuestion.answers"
+                [formControl]="answer"
+                [item]="answerItem">
+                <div class="content">{{answerItem}}</div>
+            </tui-radio-block>
+        </div>
+
+        <button
+            class="button-answer"
+            #buttonAnswer
+            [showLoader]="showLoaderButton"
+            (click)="giveAnswer();" 
+            tuiButton>
+            Ответить
+        </button>
+
+        
+    </div>
+</div>

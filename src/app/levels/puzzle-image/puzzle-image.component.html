@@ -17,8 +17,9 @@
         </h3>
 
         <button
+            #buttonStart
             *ngIf="!gameLoaded"
-            (click)="gameLoaded = !gameLoaded; gameStart()" 
+            (click)="gameStart(); buttonStart.showLoader = true;" 
             tuiButton>
             Начать!
         </button>

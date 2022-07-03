@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { TuiRootModule, TuiDialogModule, TuiAlertModule, TuiButtonModule, TuiLoaderModule } from "@taiga-ui/core";
+import { TuiRootModule, TuiDialogModule, TuiAlertModule, TuiButtonModule, TuiLoaderModule, TuiHintModule, TuiGroupModule } from "@taiga-ui/core";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,11 +11,12 @@ import { FakeLoadCongratulationsComponent } from './introduction/fake-load-congr
 import { GameExplanationComponent } from './introduction/game-explanation/game-explanation.component';
 import { ScoreCounterComponent } from './controls/score-counter/score-counter.component';
 import { LevelComponent } from "./levels/level.component";
-import { TuiCarouselModule, TuiInputModule, TuiIslandModule, TuiPaginationModule } from "@taiga-ui/kit";
+import { TuiCarouselModule, TuiCheckboxBlockModule, TuiInputModule, TuiIslandModule, TuiPaginationModule, TuiRadioBlockModule } from "@taiga-ui/kit";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PuzzleImageComponent } from './levels/puzzle-image/puzzle-image.component';
 import { ImagePartComponent } from './levels/puzzle-image/image-part/image-part.component';
 import { AnchorDirective } from "./directives/anchor.directive";
+import { QuestionAnswerComponent } from './levels/question-answer/question-answer.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AnchorDirective } from "./directives/anchor.directive";
     PuzzleImageComponent,
     ImagePartComponent,
     AnchorDirective,
+    QuestionAnswerComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,9 @@ import { AnchorDirective } from "./directives/anchor.directive";
     TuiCarouselModule,
     TuiIslandModule,
     TuiPaginationModule,
+    TuiHintModule,
+    TuiGroupModule,
+    TuiRadioBlockModule,
 ],
   providers: [],
   bootstrap: [AppComponent]

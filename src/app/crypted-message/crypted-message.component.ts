@@ -3,7 +3,6 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { FirstWordComponent } from '../introduction/first-word/first-word.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, interval } from 'rxjs';
-// import { SentimentManager } from 'node-nlp';
 
 const MESSAGE = `В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
 В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
@@ -51,10 +50,6 @@ export class CryptedMessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  //   const sentiment = new SentimentManager();
-  // sentiment
-  //     .process('ru','Ты очень хороший зверек и мне нравятся твои стикеры. Ещё у тебя очень чувственные глаза и замечательная улыбка!')
-  //     .then((result: any) => console.log(result));
 
   }
 
