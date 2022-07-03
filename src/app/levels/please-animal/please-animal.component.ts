@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import goodWords from './goodWords';
 import badWords from './badWords';
-import { debounceTime } from 'rxjs';
+import { debounceTime, timer } from 'rxjs';
 import { ScoreService } from '../../../../src/app/services/score.service';
 
 const LEVEL_REWARD = 25;
@@ -27,6 +27,9 @@ export class PleaseAnimalComponent implements OnInit {
 
   levelReward: number;
 
+  @Input('nextLevel')
+  nextLevel!: Function;
+
   constructor(
     private readonly scoreSerivce: ScoreService,
   ) {
@@ -41,9 +44,15 @@ export class PleaseAnimalComponent implements OnInit {
       setMood();
     })
     this.levelReward = LEVEL_REWARD;
+
+    
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    timer(1000).subscribe(() => this.nextLevel());
   }
 
   checkTone(compliment: string): () => void {

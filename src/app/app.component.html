@@ -1,11 +1,13 @@
 <tui-root>
-    <div class="row">
-        <div class="level">
-            <app-level></app-level>
+    <div *ngIf="">
+        <div class="row">
+            <div class="level">
+                <app-level></app-level>
+            </div>
+            <div class="celebration-message">
+                <app-crypted-message></app-crypted-message>
+            </div>
         </div>
-        <div class="celebration-message">
-            <app-crypted-message></app-crypted-message>
-        </div>
+        <app-score-counter></app-score-counter>
     </div>
-    <app-score-counter></app-score-counter>
 </tui-root>

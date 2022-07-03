@@ -22,6 +22,7 @@
     "@taiga-ui/core": "^2.50.2",
     "@taiga-ui/icons": "^2.50.2",
     "@taiga-ui/kit": "^2.50.2",
+    "node-nlp": "^4.24.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -31,7 +32,6 @@
     "@angular/cli": "~13.1.2",
     "@angular/compiler-cli": "~13.1.0",
     "@types/jasmine": "~3.10.0",
-    "@types/natural": "^5.1.1",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.10.0",
     "karma": "~6.3.0",

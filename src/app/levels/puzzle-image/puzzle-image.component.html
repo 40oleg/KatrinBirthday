@@ -7,6 +7,7 @@
         <!-- <img *ngIf="characterMood == ToneTypes.UNDETERMINED" class="standart-size-host" src="/assets/hostCharacter/question.png"> -->
     </div>
     <div class="description">
+        <h2>Собери фотокарточку</h2>
         <h3>
             Хей-хей-хей. Ты неплохо справилась с первым заданием! Могу поздравить с небольшим успехом!
             Но что же тебя ждёт дальше??? А дальше тебя ждёт пазл. В чём суть, я такой неловкий Котялок,
@@ -15,10 +16,16 @@
             Я надеюсь на твою помощь!
         </h3>
 
-        <h2>Выбери любую фотокарточку</h2>
+        <button
+            *ngIf="!gameLoaded"
+            (click)="gameLoaded = !gameLoaded; gameStart()" 
+            tuiButton>
+            Начать!
+        </button>
 
-
+        
         <canvas
+            *ngIf="gameLoaded"
             draggable="false"
             id="canvas" 
             #canvas 

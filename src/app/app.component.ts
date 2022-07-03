@@ -14,6 +14,9 @@ import { ScoreService } from './services/score.service';
 })
 export class AppComponent {
   title = 'KatrinBirthday';
+
+  gameStarted: boolean;
+
   private readonly dialogFirstWord = this.dialogSerivce.open(
     new PolymorpheusComponent(FirstWordComponent, this.injector),
     {
@@ -44,20 +47,22 @@ export class AppComponent {
     private readonly scoreService: ScoreService,
     private readonly alertService: TuiAlertService,
   ) {
-    // this.dialogFirstWord.subscribe(() => {
-    //     timer(500).subscribe(() => {
-    //         this.dialogFakeLoading.subscribe(() => {
-    //           timer(500).subscribe(() => {
-    //             this.gameExplanationLoading.subscribe((value: number | void) => {
-    //               if (typeof value === 'number') {
-    //                 this.scoreService.increaseScore(value);
-    //                 const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
-    //                 timer(3000).subscribe(subscription.unsubscribe.bind(this));
-    //               }
-    //           })
-    //         })
-    //       })
-    //     })
-    // })
+    this.gameStarted = false;
+    this.dialogFirstWord.subscribe(() => {
+        timer(500).subscribe(() => {
+            this.dialogFakeLoading.subscribe(() => {
+              timer(500).subscribe(() => {
+                this.gameExplanationLoading.subscribe((value: number | void) => {
+                  if (typeof value === 'number') {
+                    this.scoreService.increaseScore(value);
+                    const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
+                    timer(3000).subscribe(subscription.unsubscribe.bind(this));
+                    this.gameStarted = true;
+                  }
+              })
+            })
+          })
+        })
+    })
   }
 }

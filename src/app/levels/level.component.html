@@ -1,2 +1,2 @@
-<!-- <app-please-animal></app-please-animal> -->
-<app-puzzle-image></app-puzzle-image>
+<app-please-animal *ngIf="LevelsEnum.PLEASE_ANIMAL === activeLevel" [nextLevel]="loadSecondLevel.bind(this)"></app-please-animal>
+<app-puzzle-image *ngIf="LevelsEnum.PUZZLE_IMAGE === activeLevel" [nextLevel]="loadThirdLevel.bind(this)"></app-puzzle-image>

@@ -1,11 +1,14 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TuiCarouselComponent } from '@taiga-ui/kit';
-import { fromEvent, interval, merge, Observable } from 'rxjs';
+import { fromEvent, interval, timer, takeUntil, merge, Observable } from 'rxjs';
 import { AnchorDirective } from '../../directives/anchor.directive';
 import { ImagePartComponent } from './image-part/image-part.component';
 
+
+
 const PUZZLE_FIELD_SIZE = 4;
 const CANVAS_SIZE = 400;
+const MIX_INTERATIONS = 2;
 
 enum ToneTypes {
   SMILE = 'smile',
@@ -58,10 +61,19 @@ export class PuzzleImageComponent {
 
   cachedImage!: ImageData; 
 
+  fieldParts: Point[][];
+
+  gameLoaded: boolean; 
+
+  @Input('nextLevel')
+  nextLevel!: Function;
+
   @ViewChild('canvas')
   set canvas(value: ElementRef) {
-    this.canv = value.nativeElement;
-    this.ctx = value.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    if (value) {
+      this.canv = value.nativeElement;
+      this.ctx = value.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    }
   }
 
   constructor() {
@@ -75,21 +87,37 @@ export class PuzzleImageComponent {
       cellFrom: { x: 0, y: 0 },
       cellTo: { x: 0, y: 0 },      
     }
+    this.fieldParts = [];
+    for(let i = 0; i < this.puzzleFieldSize; i++) {
+      this.fieldParts.push([]);
+      for(let j = 0; j < this.puzzleFieldSize; j++) {
+        this.fieldParts[i][j] = {x: i, y: j}
+      }
+    }
+    this.gameLoaded = false;
   }
 
   ngAfterViewInit() {
-    this.listenRxEvents(); 
-    this.loadImage().then(() => {
-      this.cycle();
+    
+  }
+  
+  gameStart() {
+    timer(1000).subscribe(() =>  {
+      this.listenRxEvents(); 
+      this.loadImage().then(() => {
+        this.cycle();
+        this.mixImageParts();
+      })
     })
   }
+
+  gameStop()  {}
 
   async cycle() {
     this.clearCanvas();
     this.drawImage();
     this.drawGrid('#ffffff');
-    this.drawVectorPointer();
-    // interval(2000).subscribe(() => this.swapCells({x: 1, y: 1}, {x: 3, y: 2}));
+    this.drawVectorPointer('rgb(200,200,200)');
   }
 
   clearCanvas() {
@@ -131,6 +159,7 @@ export class PuzzleImageComponent {
       img.src = '/assets/puzzleImages/forest.jpg';
       img.onload = () => {
         this.ctx.drawImage(img, 0, 0, this.canv.width, this.canv.height);
+        this.drawGrid('#ffffff');
         this.cachedCanvas();
         res(true);
       }
@@ -146,14 +175,23 @@ export class PuzzleImageComponent {
     this.ctx.putImageData(this.cachedImage, 0, 0);
   }
 
-  swapCells(cell1: Point, cell2: Point) {
-    this.clearCanvas();
-    this.drawImage();
-    const cell2Data = this.ctx.getImageData(cell2.x*this.step, cell2.y*this.step, this.step, this.step);
-    const cell1Data = this.ctx.getImageData(cell1.x*this.step, cell1.y*this.step, this.step, this.step);
-    this.ctx.putImageData(cell1Data, cell2.x*this.step, cell2.y*this.step);
-    this.ctx.putImageData(cell2Data, cell1.x*this.step, cell1.y*this.step);
-    this.cachedCanvas();
+  async swapCells(cell1: Point, cell2: Point) {
+    return new Promise((res, rej) => {
+      this.clearCanvas();
+      this.drawImage();
+      const cell2Data = this.ctx.getImageData(cell2.x*this.step, cell2.y*this.step, this.step, this.step);
+      const cell1Data = this.ctx.getImageData(cell1.x*this.step, cell1.y*this.step, this.step, this.step);
+      this.ctx.putImageData(cell1Data, cell2.x*this.step, cell2.y*this.step);
+      this.ctx.putImageData(cell2Data, cell1.x*this.step, cell1.y*this.step);
+      this.cachedCanvas();
+
+      const tmp = this.fieldParts[cell1.x][cell1.y];
+      this.fieldParts[cell1.x][cell1.y] = this.fieldParts[cell2.x][cell2.y];
+      this.fieldParts[cell2.x][cell2.y] = tmp;
+
+      this.checkIfSolved();
+      timer(150).subscribe(() => res(''));
+    })
   }
   
   listenRxEvents() {
@@ -162,6 +200,7 @@ export class PuzzleImageComponent {
       fromEvent(this.canv, 'mouseup'),
       fromEvent(this.canv, 'mousemove'),
       fromEvent(this.canv, 'mouseout'),
+      fromEvent(this.canv, 'mouseenter'),
     ) as Observable<MouseEvent>;
 
     mouse$.subscribe((event: MouseEvent) => {
@@ -180,6 +219,16 @@ export class PuzzleImageComponent {
         this.swapCells(this.vectorPointer.cellFrom, this.vectorPointer.cellTo);
         return;
       }
+      if (event.type === 'mouseout') {
+        this.vectorPointer.active = false;
+        this.cycle();
+        return;
+      }
+      if (event.type === 'mouseenter') {
+        if (event.buttons === 0) return;
+        this.vectorPointer.active = true;
+        return;
+      }
     })
   }
 
@@ -187,9 +236,15 @@ export class PuzzleImageComponent {
     return {x: Math.floor(event.offsetX / this.step), y: Math.floor(event.offsetY / this.step)}
   }
 
-  drawVectorPointer() {
+  /**
+   * Рисует вектор перемещения
+   * @param color цвет в rgba формате e.g "rgb(255,255,255)"
+   * @returns void
+   */
+  drawVectorPointer(color: string) {
+    const lastFillStyle = this.ctx.fillStyle;
+    this.ctx.fillStyle = color;
     this.ctx.beginPath();
-
     if (!this.vectorPointer.active) return;
     this.ctx.arc(
       this.vectorPointer.cellFrom.x * this.step + this.step / 2,
@@ -198,7 +253,10 @@ export class PuzzleImageComponent {
       0,
       2 * Math.PI
     );
+    this.ctx.closePath()
+    this.ctx.fill();
 
+    this.ctx.beginPath()
     this.ctx.arc(
       this.vectorPointer.cellTo.x * this.step + this.step / 2,
       this.vectorPointer.cellTo.y * this.step + this.step / 2,
@@ -206,9 +264,13 @@ export class PuzzleImageComponent {
       0,
       2 * Math.PI
     );
+    this.ctx.closePath()
+    this.ctx.fill();
     
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.beginPath()
     const lastLineLength = this.ctx.lineWidth;
-    this.ctx.lineWidth = 10;
+    this.ctx.lineWidth = 5;
     this.ctx.moveTo(
       this.vectorPointer.cellFrom.x * this.step + this.step / 2,
       this.vectorPointer.cellFrom.y * this.step + this.step / 2,
@@ -220,7 +282,27 @@ export class PuzzleImageComponent {
     this.ctx.closePath();
     this.ctx.stroke();
     this.ctx.lineWidth = lastLineLength;
+    this.ctx.fillStyle = lastFillStyle;
+    this.ctx.globalAlpha = 1;
+  }
 
+  checkIfSolved(): boolean {
+    for (let i = 0; i < this.puzzleFieldSize; i++) {
+      for (let j = 0; j < this.puzzleFieldSize; j++) {
+        if (this.fieldParts[i][j].x !== i || this.fieldParts[i][j].y !== j) return false;
+      }
+    }
+    return true;
+  }
+
+  async mixImageParts() {
+    for(let i = 0; i < MIX_INTERATIONS; i++) {
+      await this.swapCells(this.getRandomFieldPoint(), this.getRandomFieldPoint())
+    }
+  }
+
+  getRandomFieldPoint(): Point {
+    return { x: Math.floor(Math.random() * this.puzzleFieldSize), y: Math.floor(Math.random() * this.puzzleFieldSize) };
   }
 
   get ToneTypes(): typeof ToneTypes {
