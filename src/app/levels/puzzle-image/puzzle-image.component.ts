@@ -31,10 +31,10 @@ type VectorPointer = {
 }
 
 const images: PickingImages[] = [
-  { url: 'assets/puzzleImages/image1.jpg' },
-  { url: 'assets/puzzleImages/image2.jpg' },
-  { url: 'assets/puzzleImages/image3.jpg' },
-  { url: 'assets/puzzleImages/image4.jpg' },
+  { url: './assets/puzzleImages/image1.jpg' },
+  { url: './assets/puzzleImages/image2.jpg' },
+  { url: './assets/puzzleImages/image3.jpg' },
+  { url: './assets/puzzleImages/image4.jpg' },
 ]
 
 @Component({
