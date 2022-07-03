@@ -9,7 +9,7 @@ import { ImagePartComponent } from './image-part/image-part.component';
 
 const PUZZLE_FIELD_SIZE = 4;
 const CANVAS_SIZE = 400;
-const MIX_INTERATIONS = 2;
+const MIX_INTERATIONS = 40;
 
 enum ToneTypes {
   SMILE = 'smile',
