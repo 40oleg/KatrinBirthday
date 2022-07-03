@@ -34,6 +34,17 @@
             height="400px">
         </canvas>
 
+        <div *ngIf="checkIfSolved()">
+            <button 
+                [showLoader]="levelFinished"
+                class="finishButton"
+                tuiButton
+                (click)="getReward()">
+                Завершить задание
+            </button>
+            <h3>Поздравляю, Катя!!! Ты прошла ещё один уровень!</h3>
+        </div>
+
 
         <!-- <div *ngIf="this.characterMood === ToneTypes.POSITIVE">
             <button 

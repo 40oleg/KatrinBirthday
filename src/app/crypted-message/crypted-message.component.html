@@ -1,2 +1,14 @@
 <!-- <h1>Поздравление Олега :3</h1> -->
-<h3>{{cryptedMessage}}</h3>
+<div class="wrapper">
+    <h3>{{cryptedMessage}}</h3>
+    <div class="encryption">
+        <div class="title">Зашифровано</div>
+    </div>
+    <button
+        *ngIf="userScore > 100"
+        class="hack"
+        tuiButton
+        (click)="alert('Функционал в разработке')">
+        Взломать!
+    </button>
+</div>

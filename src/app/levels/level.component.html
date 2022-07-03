@@ -1,3 +1,3 @@
-<!-- <app-please-animal *ngIf="LevelsEnum.PLEASE_ANIMAL === activeLevel" [nextLevel]="loadSecondLevel.bind(this)"></app-please-animal> -->
-<!-- <app-puzzle-image *ngIf="LevelsEnum.PUZZLE_IMAGE === activeLevel" [nextLevel]="loadThirdLevel.bind(this)"></app-puzzle-image> -->
-<app-question-answer></app-question-answer>
+<app-please-animal *ngIf="LevelsEnum.PLEASE_ANIMAL === activeLevel" [nextLevel]="loadSecondLevel.bind(this)"></app-please-animal>
+<app-puzzle-image *ngIf="LevelsEnum.PUZZLE_IMAGE === activeLevel" [nextLevel]="loadThirdLevel.bind(this)"></app-puzzle-image>
+<app-question-answer *ngIf="LevelsEnum.QUIZ === activeLevel"></app-question-answer>

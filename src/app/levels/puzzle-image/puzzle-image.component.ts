@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TuiCarouselComponent } from '@taiga-ui/kit';
 import { fromEvent, interval, timer, takeUntil, merge, Observable } from 'rxjs';
+import { ScoreService } from 'src/app/services/score.service';
 import { AnchorDirective } from '../../directives/anchor.directive';
 import { ImagePartComponent } from './image-part/image-part.component';
 
@@ -30,10 +31,10 @@ type VectorPointer = {
 }
 
 const images: PickingImages[] = [
-  { url: 'assets/puzzleImages/forest.jpg' },
-  { url: 'assets/puzzleImages/forest.jpg' },
-  { url: 'assets/puzzleImages/forest.jpg' },
-  { url: 'assets/puzzleImages/forest.jpg' },
+  { url: 'assets/puzzleImages/image1.jpg' },
+  { url: 'assets/puzzleImages/image2.jpg' },
+  { url: 'assets/puzzleImages/image3.jpg' },
+  { url: 'assets/puzzleImages/image4.jpg' },
 ]
 
 @Component({
@@ -63,7 +64,9 @@ export class PuzzleImageComponent {
 
   fieldParts: Point[][];
 
-  gameLoaded: boolean; 
+  gameLoaded: boolean;
+
+  levelFinished: boolean;
 
   @Input('nextLevel')
   nextLevel!: Function;
@@ -76,7 +79,9 @@ export class PuzzleImageComponent {
     }
   }
 
-  constructor() {
+  constructor(
+    private readonly scoreService: ScoreService,
+  ) {
     this.characterMood = ToneTypes.SMILE;
     this.images = images;
     this.index = 0;
@@ -95,6 +100,7 @@ export class PuzzleImageComponent {
       }
     }
     this.gameLoaded = false;
+    this.levelFinished = false;
   }
 
   ngAfterViewInit() {
@@ -157,7 +163,7 @@ export class PuzzleImageComponent {
   async loadImage() {
     return new Promise((res, rej) => {
       const img = new Image();
-      img.src = '/assets/puzzleImages/forest.jpg';
+      img.src = this.images[Math.floor(Math.random()*this.images.length)].url;
       img.onload = () => {
         this.ctx.drawImage(img, 0, 0, this.canv.width, this.canv.height);
         this.drawGrid('#ffffff');
@@ -189,8 +195,6 @@ export class PuzzleImageComponent {
       const tmp = this.fieldParts[cell1.x][cell1.y];
       this.fieldParts[cell1.x][cell1.y] = this.fieldParts[cell2.x][cell2.y];
       this.fieldParts[cell2.x][cell2.y] = tmp;
-
-      this.checkIfSolved();
       timer(150).subscribe(() => res(''));
     })
   }
@@ -288,6 +292,7 @@ export class PuzzleImageComponent {
   }
 
   checkIfSolved(): boolean {
+    if (!this.canv) return false;
     for (let i = 0; i < this.puzzleFieldSize; i++) {
       for (let j = 0; j < this.puzzleFieldSize; j++) {
         if (this.fieldParts[i][j].x !== i || this.fieldParts[i][j].y !== j) return false;
@@ -304,6 +309,16 @@ export class PuzzleImageComponent {
 
   getRandomFieldPoint(): Point {
     return { x: Math.floor(Math.random() * this.puzzleFieldSize), y: Math.floor(Math.random() * this.puzzleFieldSize) };
+  }
+
+  getReward() {
+    if(this.checkIfSolved()) {
+      this.scoreService.increaseScore(45);
+      this.levelFinished = true;
+      timer(2000).subscribe(() => {
+        this.nextLevel();
+      })
+    }
   }
 
   get ToneTypes(): typeof ToneTypes {

@@ -4,7 +4,7 @@ import { TuiButtonComponent } from '@taiga-ui/core';
 import { timer } from 'rxjs';
 import { ScoreService } from 'src/app/services/score.service';
 
-const QUESTION_REWARD = 64;
+const QUESTION_REWARD = 10;
 
 type QuestionAnswer = {
   question: string,
@@ -14,7 +14,7 @@ type QuestionAnswer = {
 
 const QUESTIONS: QuestionAnswer[] = [
   {
-    question: 'Как зовут Акулу Леры?',
+    question: 'Как зовут акулу Леры?',
     answers: ['Белкунчик', 'Амурчик', 'Акулкин', 'Акулин'],
     rightAnswer: 'Акулкин'
   },

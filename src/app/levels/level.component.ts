@@ -5,6 +5,7 @@ enum LevelsEnum {
   EMPTY_LEVEL = 'empty_level',
   PLEASE_ANIMAL = 'please_animal',
   PUZZLE_IMAGE = 'puzzle_image',
+  QUIZ = 'quiz'
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class LevelComponent implements OnInit {
   }
 
   loadThirdLevel() {
-    this.activeLevel = LevelsEnum.PLEASE_ANIMAL;
+    this.activeLevel = LevelsEnum.QUIZ;
   }
 
   get LevelsEnum(): typeof LevelsEnum  {

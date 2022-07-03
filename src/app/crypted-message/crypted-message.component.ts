@@ -3,6 +3,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { FirstWordComponent } from '../introduction/first-word/first-word.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, interval } from 'rxjs';
+import { ScoreService } from '../services/score.service';
 
 const MESSAGE = `В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
 В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
@@ -36,17 +37,22 @@ export class CryptedMessageComponent implements OnInit {
   /** Коэффициент показывающий какой процент сообщения будет виден в незашифрованном виде */
   decryptedPercentage$: BehaviorSubject<number> = new BehaviorSubject<number>(0.9);
 
+  userScore: number;
+
   constructor(
-    private readonly dialogSerivce: TuiDialogService,
+    private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
+    private readonly scoreService: ScoreService,
   ) {
     this.changesDictionary = new Map();
     this.fillChangesDictionary();
     this.initialMessage = MESSAGE;
     this.cryptedMessage = '';
+    this.userScore = 0;
     this.decryptedPercentage$.subscribe((percent) => {
       this.cryptedMessage = this.cryptMessage(this.initialMessage);
     })
+    scoreService.userScore$.subscribe((value: number) => this.userScore = value);
   }
 
   ngOnInit(): void {
@@ -87,6 +93,10 @@ export class CryptedMessageComponent implements OnInit {
   //   console.log(array.join(''))
   //   return array;
   // }
+
+  alert(message: string) {
+    alert(message);
+  }
 
 
 }
