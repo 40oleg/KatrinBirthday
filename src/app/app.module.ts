@@ -19,6 +19,7 @@ import { AnchorDirective } from "./directives/anchor.directive";
 import { QuestionAnswerComponent } from './levels/question-answer/question-answer.component';
 import { CongratulationsComponent } from './conclusion/congratulations/congratulations.component';
 import { CreditsComponent } from './conclusion/credits/credits.component';
+import { FireworksComponent } from './effects/fireworks/fireworks.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CreditsComponent } from './conclusion/credits/credits.component';
     QuestionAnswerComponent,
     CongratulationsComponent,
     CreditsComponent,
+    FireworksComponent,
   ],
   imports: [
     BrowserModule,

@@ -34,7 +34,10 @@ const images: PickingImages[] = [
   { url: './assets/puzzleImages/image1.jpg' },
   { url: './assets/puzzleImages/image2.jpg' },
   { url: './assets/puzzleImages/image3.jpg' },
-  // { url: './assets/puzzleImages/image4.jpg' },
+  { url: './assets/puzzleImages/image4.jpg' },
+  { url: './assets/puzzleImages/image5.jpg' },
+  { url: './assets/puzzleImages/image6.jpg' },
+  { url: './assets/puzzleImages/image7.jpg' },
 ]
 
 @Component({
@@ -209,20 +212,24 @@ export class PuzzleImageComponent {
       fromEvent(this.canv, 'mousemove'),
       fromEvent(this.canv, 'mouseout'),
       fromEvent(this.canv, 'mouseenter'),
+
+      fromEvent(this.canv, 'touchstart'),
+      fromEvent(this.canv, 'touchmove'),
+      fromEvent(this.canv, 'touchend'),
     ) as Observable<MouseEvent>;
 
     mouse$.subscribe((event: MouseEvent) => {
-      if (event.type === 'mousedown') {
+      if (event.type === 'mousedown' || event.type === 'touchstart') {
         this.vectorPointer.active = true;
         this.vectorPointer.cellFrom = this.getCellFromEvent(event);
         return;
       }
-      if (event.type === 'mousemove') {
+      if (event.type === 'mousemove'  || event.type === 'touchmove') {
         this.vectorPointer.cellTo = this.getCellFromEvent(event);
         this.cycle();
         return;
       }
-      if (event.type === 'mouseup') {
+      if (event.type === 'mouseup' || event.type === 'touchend') {
         this.vectorPointer.active = false;
         this.swapCells(this.vectorPointer.cellFrom, this.vectorPointer.cellTo);
         return;
@@ -240,8 +247,26 @@ export class PuzzleImageComponent {
     })
   }
 
-  getCellFromEvent(event: MouseEvent) {
-    return {x: Math.floor(event.offsetX / this.step), y: Math.floor(event.offsetY / this.step)}
+  getCellFromEvent(event: MouseEvent | TouchEvent): Point {
+    if(event instanceof TouchEvent) {
+      const touch = event.changedTouches[0];
+      const offsetX = touch.clientX - this.canv.getBoundingClientRect().x;
+      const offsetY = touch.clientY - this.canv.getBoundingClientRect().y;
+      return this.roundToBorders({x: Math.floor(offsetX / this.step), y: Math.floor(offsetY / this.step)})
+    }
+    if(event instanceof MouseEvent) {
+      return {x: Math.floor(event.offsetX / this.step), y: Math.floor(event.offsetY / this.step)}
+    }
+    throw new Error('Got not event');
+  }
+
+  roundToBorders(point: Point): Point {
+    point.x = point.x < 0 ? 0 : point.x;
+    point.y = point.y < 0 ? 0 : point.y;
+    return {
+      x: point.x > this.puzzleFieldSize-1 ? this.puzzleFieldSize-1 : point.x,
+      y: point.y > this.puzzleFieldSize-1 ? this.puzzleFieldSize-1 : point.y,
+    }
   }
 
   /**
