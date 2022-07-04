@@ -2,19 +2,12 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { FirstWordComponent } from '../introduction/first-word/first-word.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, interval } from 'rxjs';
+import { BehaviorSubject, interval, timer } from 'rxjs';
 import { ScoreService } from '../services/score.service';
+import { CongratulationsComponent } from '../conclusion/congratulations/congratulations.component';
+import { CreditsComponent } from '../conclusion/credits/credits.component';
 
-const MESSAGE = `В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!
-В этот день я хочу пожелать тебе всего самого хорошего и отличного, много радостных эмоций и большого счастья!`;
+const MESSAGE = ``;
 const INITIAL_LETTERS = 'ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮйцукенгшщзхъфывапролджэячсмитьбюё.,!?"/ ';
 const CRYPT_ALPHABET = 'kfTX!+x0.#yhjOu31qLFB=lV92cWKz8pmoD-;JtrvdgUeM5,*^nNsZHQSAi7wC$R6PE4&abY@G%';
 
@@ -38,6 +31,24 @@ export class CryptedMessageComponent implements OnInit {
   decryptedPercentage$: BehaviorSubject<number> = new BehaviorSubject<number>(0.9);
 
   userScore: number;
+
+  private readonly congratulation = this.dialogService.open(
+    new PolymorpheusComponent(CongratulationsComponent, this.injector),
+    {
+      size: 'l',
+      closeable: false,
+      dismissible: false,
+    }
+  );
+
+  private readonly credits = this.dialogService.open(
+    new PolymorpheusComponent(CreditsComponent, this.injector),
+    {
+      size: 'l',
+      closeable: false,
+      dismissible: false,
+    }
+  );
 
   constructor(
     private readonly dialogService: TuiDialogService,
@@ -81,21 +92,12 @@ export class CryptedMessageComponent implements OnInit {
     })
   }
 
-  /** Перемешать словарь */
-  // shakeArray(array: string[]): string[] {
-  //   for(let i = 0; i < 10000; i++) {
-  //     const randomIndex1 = Math.floor(Math.random() * array.length);
-  //     const randomIndex2 = Math.floor(Math.random() * array.length);
-  //     const tmp = array[randomIndex1];
-  //     array[randomIndex1] = array[randomIndex2];
-  //     array[randomIndex2] = tmp;
-  //   }
-  //   console.log(array.join(''))
-  //   return array;
-  // }
-
-  alert(message: string) {
-    alert(message);
+  runCongratulation() {
+    this.congratulation.subscribe(() => {
+        timer(500).subscribe(() => {
+          this.credits.subscribe();
+        })
+    })
   }
 
 

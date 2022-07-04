@@ -4,6 +4,8 @@ h3 {
 
 .wrapper {
     position: relative;
+    height: calc(100vh - 20px);
+    margin: 10px;
 }
 
 .encryption {
@@ -13,13 +15,16 @@ h3 {
     width: 100%;
     height: 100%;
     background: darkslategray;
+    cursor: not-allowed;
 }
 
 .title {
     position: absolute;
-    top: 300px;
-    font-size: 50px;
+    top: 40%;
+    font-size: 25px;
     font-weight: bold;
+    line-height: 60px;
+    text-align: center;
     transform: rotate(45deg);
 }
 

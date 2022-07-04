@@ -17,6 +17,8 @@ import { PuzzleImageComponent } from './levels/puzzle-image/puzzle-image.compone
 import { ImagePartComponent } from './levels/puzzle-image/image-part/image-part.component';
 import { AnchorDirective } from "./directives/anchor.directive";
 import { QuestionAnswerComponent } from './levels/question-answer/question-answer.component';
+import { CongratulationsComponent } from './conclusion/congratulations/congratulations.component';
+import { CreditsComponent } from './conclusion/credits/credits.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { QuestionAnswerComponent } from './levels/question-answer/question-answe
     ImagePartComponent,
     AnchorDirective,
     QuestionAnswerComponent,
+    CongratulationsComponent,
+    CreditsComponent,
   ],
   imports: [
     BrowserModule,

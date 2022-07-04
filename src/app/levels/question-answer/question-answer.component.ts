@@ -1,38 +1,16 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TuiButtonComponent } from '@taiga-ui/core';
+import { TuiAlertService, TuiButtonComponent, TuiNotification } from '@taiga-ui/core';
 import { timer } from 'rxjs';
 import { ScoreService } from 'src/app/services/score.service';
+import { QuestionAnswer, QUESTIONS } from './Questions';
 
 const QUESTION_REWARD = 10;
 
-type QuestionAnswer = {
-  question: string,
-  answers: [string, string, string, string],
-  rightAnswer: string,
-}
-
-const QUESTIONS: QuestionAnswer[] = [
-  {
-    question: 'Как зовут акулу Леры?',
-    answers: ['Белкунчик', 'Амурчик', 'Акулкин', 'Акулин'],
-    rightAnswer: 'Акулкин'
-  },
-  {
-    question: 'Какой мой любимый цвет?',
-    answers: ['Красный', 'Оранжевый', 'Синий', 'Черный'],
-    rightAnswer: 'Оранжевый'
-  },
-  {
-    question: 'Как зовут твою игрушку?',
-    answers: ['Игрушка', 'Игрушка2', 'Игрушка3', 'Игрушка4'],
-    rightAnswer: 'Игрушка2'
-  },
-] 
-
 enum ToneTypes {
   LITTLE_SMILE = 'little_smile',
-  SAD = 'little_smile',
+  PHENOMINAL = 'phenominal',
+  SAD = 'sad',
 }
 
 @Component({
@@ -54,6 +32,7 @@ export class QuestionAnswerComponent implements OnInit {
 
   constructor(
     private readonly scoreService: ScoreService,
+    private readonly alertService: TuiAlertService,
   ) {
     this.characterMood = ToneTypes.LITTLE_SMILE;
     this.answer = new FormControl('');
@@ -67,15 +46,20 @@ export class QuestionAnswerComponent implements OnInit {
 
   giveAnswer() {
     this.showLoaderButton = true;
-    timer(1000).subscribe(() => {
-      if (this.answer.value === this.currentQuestion.rightAnswer) {
+    timer(2000).subscribe(() => {
+      if (this.currentQuestion.rightAnswer.includes(this.answer.value)) {
         this.scoreService.increaseScore(QUESTION_REWARD);
         if(this.checkFinish()) return;
         this.nextQuestion();
+        this.alertService.open(`Получено ${QUESTION_REWARD} булочек!`, {label: 'Правильный ответ', status: TuiNotification.Success}).subscribe();
+        this.characterMood = ToneTypes.PHENOMINAL;
       } else {
         this.nextQuestion();
+        this.alertService.open(`Не удалось получить булочек :(`, {label: 'Неправильный ответ', status: TuiNotification.Error}).subscribe();
+        this.characterMood = ToneTypes.SAD;
       }
       this.showLoaderButton = false;
+      this.answer.patchValue('');
     })
   }
 

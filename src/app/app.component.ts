@@ -17,7 +17,7 @@ export class AppComponent {
 
   gameStarted: boolean;
 
-  private readonly dialogFirstWord = this.dialogSerivce.open(
+  private readonly dialogFirstWord = this.dialogService.open(
     new PolymorpheusComponent(FirstWordComponent, this.injector),
     {
       size: 's',
@@ -25,7 +25,7 @@ export class AppComponent {
       dismissible: false,
     }
   );
-  private readonly dialogFakeLoading = this.dialogSerivce.open(
+  private readonly dialogFakeLoading = this.dialogService.open(
     new PolymorpheusComponent(FakeLoadCongratulationsComponent, this.injector),
     {
       size: 's',
@@ -33,7 +33,7 @@ export class AppComponent {
       dismissible: false,
     }
   );
-  private readonly gameExplanationLoading = this.dialogSerivce.open(
+  private readonly gameExplanationLoading = this.dialogService.open(
     new PolymorpheusComponent(GameExplanationComponent, this.injector),
     {
       size: 'l',
@@ -42,29 +42,29 @@ export class AppComponent {
     }
   );
   constructor(
-    private readonly dialogSerivce: TuiDialogService,
+    private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly scoreService: ScoreService,
     private readonly alertService: TuiAlertService,
   ) {
     this.gameStarted = true;
 
-    this.gameStarted = false;
-    this.dialogFirstWord.subscribe(() => {
-        timer(500).subscribe(() => {
-            this.dialogFakeLoading.subscribe(() => {
-              timer(500).subscribe(() => {
-                this.gameExplanationLoading.subscribe((value: number | void) => {
-                  if (typeof value === 'number') {
-                    this.scoreService.increaseScore(value);
-                    // const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
-                    // timer(3000).subscribe(subscription.unsubscribe.bind(this));
-                    this.gameStarted = true;
-                  }
-              })
-            })
-          })
-        })
-    })
+    // this.gameStarted = false;
+    // this.dialogFirstWord.subscribe(() => {
+    //     timer(500).subscribe(() => {
+    //         this.dialogFakeLoading.subscribe(() => {
+    //           timer(500).subscribe(() => {
+    //             this.gameExplanationLoading.subscribe((value: number | void) => {
+    //               if (typeof value === 'number') {
+    //                 this.scoreService.increaseScore(value);
+    //                 // const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
+    //                 // timer(3000).subscribe(subscription.unsubscribe.bind(this));
+    //                 this.gameStarted = true;
+    //               }
+    //           })
+    //         })
+    //       })
+    //     })
+    // })
   }
 }

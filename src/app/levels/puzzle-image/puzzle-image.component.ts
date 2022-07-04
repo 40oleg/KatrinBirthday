@@ -34,7 +34,7 @@ const images: PickingImages[] = [
   { url: './assets/puzzleImages/image1.jpg' },
   { url: './assets/puzzleImages/image2.jpg' },
   { url: './assets/puzzleImages/image3.jpg' },
-  { url: './assets/puzzleImages/image4.jpg' },
+  // { url: './assets/puzzleImages/image4.jpg' },
 ]
 
 @Component({
@@ -67,6 +67,8 @@ export class PuzzleImageComponent {
   gameLoaded: boolean;
 
   levelFinished: boolean;
+
+  canvasMixingLoading: boolean;
 
   @Input('nextLevel')
   nextLevel!: Function;
@@ -101,6 +103,7 @@ export class PuzzleImageComponent {
     }
     this.gameLoaded = false;
     this.levelFinished = false;
+    this.canvasMixingLoading = false;
   }
 
   ngAfterViewInit() {
@@ -143,7 +146,7 @@ export class PuzzleImageComponent {
     if (!this.canv) throw Error('canvas has not been found');
     const lastFillStyle = this.ctx.fillStyle; 
     this.ctx.strokeStyle = color;
-    this.ctx.lineWidth = 2;
+    this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     this.ctx.moveTo(0, 0)
     for(let i = 0; i < this.puzzleFieldSize+1; i++) {
@@ -195,7 +198,7 @@ export class PuzzleImageComponent {
       const tmp = this.fieldParts[cell1.x][cell1.y];
       this.fieldParts[cell1.x][cell1.y] = this.fieldParts[cell2.x][cell2.y];
       this.fieldParts[cell2.x][cell2.y] = tmp;
-      timer(150).subscribe(() => res(''));
+      timer(50).subscribe(() => res(''));
     })
   }
   
@@ -302,9 +305,11 @@ export class PuzzleImageComponent {
   }
 
   async mixImageParts() {
+    this.canvasMixingLoading = true;
     for(let i = 0; i < MIX_INTERATIONS; i++) {
       await this.swapCells(this.getRandomFieldPoint(), this.getRandomFieldPoint())
     }
+    this.canvasMixingLoading = false;
   }
 
   getRandomFieldPoint(): Point {

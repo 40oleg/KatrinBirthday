@@ -39,7 +39,7 @@ export class PleaseAnimalComponent implements OnInit {
     this.compliment = new FormControl('', Validators.required);
     this.compliment.valueChanges
     .pipe(
-      debounceTime(1000)
+      debounceTime(500)
     )
     .subscribe((compliment: string) => {
       const setMood = this.checkTone(compliment);
@@ -108,7 +108,8 @@ export class PleaseAnimalComponent implements OnInit {
     })
   }
 
-  getStem(word: string) {    
+  getStem(word: string) {  
+    word = word.replace(/[^а-яА-Я ]/gm, '');  
     var DICT = {
         RVRE: /^(.*?[аеиоуыэюя])(.*)$/i,
         PERFECTIVEGROUND_1: /([ая])(в|вши|вшись)$/gi,

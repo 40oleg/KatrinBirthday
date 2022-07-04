@@ -17,4 +17,9 @@ h3 {
 
 .button-answer {
     margin-top: 15px;
+    background: var(--tui-positive) !important;
+}
+
+.right-answer {
+    background: var(--tui-positive);
 }

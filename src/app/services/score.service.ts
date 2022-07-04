@@ -9,7 +9,7 @@ export class ScoreService {
   userScore$: BehaviorSubject<number>;
 
   constructor() {
-    this.userScore$ = new BehaviorSubject<number>(0);
+    this.userScore$ = new BehaviorSubject<number>(101);
   }
 
   increaseScore(value: number): void {

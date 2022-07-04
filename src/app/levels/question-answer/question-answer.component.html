@@ -2,9 +2,8 @@
     <div>
         <h1>Третье задание.</h1>
         <img *ngIf="characterMood == ToneTypes.LITTLE_SMILE" class="standart-size-host" src="./assets/hostCharacter/little_smile.png">
-        <!-- <img *ngIf="characterMood == ToneTypes.POSITIVE" class="standart-size-host" src="/assets/hostCharacter/hehe.png"> -->
-        <!-- <img *ngIf="characterMood == ToneTypes.NEGATIVE" class="standart-size-host" src="/assets/hostCharacter/unsatisfaction.png"> -->
-        <!-- <img *ngIf="characterMood == ToneTypes.UNDETERMINED" class="standart-size-host" src="/assets/hostCharacter/question.png"> -->
+        <img *ngIf="characterMood == ToneTypes.PHENOMINAL" class="standart-size-host" src="/assets/hostCharacter/phenominal.png">
+        <img *ngIf="characterMood == ToneTypes.SAD" class="standart-size-host" src="/assets/hostCharacter/sad.png">
     </div>
     <div class="description">
         <h2>Рубрика вопрос-ответ!</h2>
@@ -33,6 +32,7 @@
         <button
             class="button-answer"
             #buttonAnswer
+            [appearance]="(this.currentQuestion.rightAnswer.includes(this.answer.value) && showLoaderButton) || !showLoaderButton ? 'primary' : 'accent'"
             [showLoader]="showLoaderButton"
             (click)="giveAnswer();" 
             tuiButton>
