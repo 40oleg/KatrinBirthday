@@ -49,22 +49,22 @@ export class AppComponent {
   ) {
     this.gameStarted = true;
 
-    // this.gameStarted = false;
-    // this.dialogFirstWord.subscribe(() => {
-    //     timer(500).subscribe(() => {
-    //         this.dialogFakeLoading.subscribe(() => {
-    //           timer(500).subscribe(() => {
-    //             this.gameExplanationLoading.subscribe((value: number | void) => {
-    //               if (typeof value === 'number') {
-    //                 this.scoreService.increaseScore(value);
-    //                 // const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
-    //                 // timer(3000).subscribe(subscription.unsubscribe.bind(this));
-    //                 this.gameStarted = true;
-    //               }
-    //           })
-    //         })
-    //       })
-    //     })
-    // })
+    this.gameStarted = false;
+    this.dialogFirstWord.subscribe(() => {
+        timer(500).subscribe(() => {
+            this.dialogFakeLoading.subscribe(() => {
+              timer(500).subscribe(() => {
+                this.gameExplanationLoading.subscribe((value: number | void) => {
+                  if (typeof value === 'number') {
+                    this.scoreService.increaseScore(value);
+                    // const subscription = this.alertService.open( new PolymorpheusComponent(GameExplanationComponent, this.injector),).subscribe();
+                    // timer(3000).subscribe(subscription.unsubscribe.bind(this));
+                    this.gameStarted = true;
+                  }
+              })
+            })
+          })
+        })
+    })
   }
 }
