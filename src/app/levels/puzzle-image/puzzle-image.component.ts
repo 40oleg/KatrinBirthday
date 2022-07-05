@@ -201,7 +201,7 @@ export class PuzzleImageComponent {
       const tmp = this.fieldParts[cell1.x][cell1.y];
       this.fieldParts[cell1.x][cell1.y] = this.fieldParts[cell2.x][cell2.y];
       this.fieldParts[cell2.x][cell2.y] = tmp;
-      timer(50).subscribe(() => res(''));
+      timer(200).subscribe(() => res(''));
     })
   }
   
